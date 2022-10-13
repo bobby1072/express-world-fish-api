@@ -1,21 +1,46 @@
-import httpClient from './httpClient';
+import httpClient from "./httpClient";
 class Fish {
-    speciesName: string;
-    code: string;
-    latin: string;
-    speciesJson?: object;
+    public speciesName: string;
+    public code: string;
+    public latin: string;
+    private physicalDescription?: string;
+    private speciesPhoto?: string;
+    private speciesNumbers?: object[];
     constructor(fishName: string, fishCode: string, fishLatin: string){
         this.speciesName = fishName;
         this.code = fishCode;
         this.latin = fishLatin;
     };
     async getSpeciesInfo(){
-        const infoRequest = async () => {
-            const req = await httpClient.get(`https://www.fishwatch.gov/api/species/${this.speciesName}`);
-            return await req.data;
+        const req = await httpClient.get(`https://www.fishwatch.gov/api/species/${this.speciesName}`);
+        const fishInfo = await req.data;
+        if (fishInfo.length >= 1){
+            this.physicalDescription = fishInfo[0]["Physical Description"],
+            this.speciesPhoto = fishInfo[0]["Species Illustration Photo"].src
         };
-        const fishInfo = await infoRequest();
-        return fishInfo;
+    };
+    async getSpeciesNumbers(){
+        try{
+            const req = await httpClient.get(`http://openfisheries.org/api/landings/species/${this.code}.json`);
+            const fishInfo = await req.data;
+            if (fishInfo.length >= 1){
+                this.speciesNumbers = fishInfo;
+            };
+        }
+        catch(err){
+        }
+    };
+    createFishJson(): object{
+        return {
+            Name: this.speciesName,
+            Code: this.code,
+            ScientificName: this.latin,
+            SpecieNumbers: this.speciesNumbers,
+            SpeciesInfo: {
+                PhysicalDescription: this.physicalDescription,
+                SpeciesPhoto: this.speciesPhoto
+            }
+        };
     };
 };
 export default Fish;
