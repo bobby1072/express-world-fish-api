@@ -1,10 +1,13 @@
 import Fish from "./FishClass";
+import AllFish from "./AllFishDataClass";
 import express, {Application, Request, Response} from "express";
 async function main(){
-    const myFish = new Fish("Atlantic Salmon", "SAL", "esox");
-    await myFish.getSpeciesNumbers();
-    await myFish.getSpeciesInfo();
-    console.log(myFish.createFishJson());
+    const myFish = new Fish("Salmon", "SAL", "esox");
+    //await myFish.getSpeciesNumbers();
+    //await myFish.getSpeciesInfo();
+    const allFish = new AllFish();
+    const myArr = allFish.findFish(myFish.speciesName);
+    //console.log(myFish.createFishJson());
 }
 main();
 
