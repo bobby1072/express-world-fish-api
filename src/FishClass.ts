@@ -28,7 +28,7 @@ class Fish {
             };
         }
         catch(err){
-        }
+        };
     };
     createFishJson(): object{
         return {

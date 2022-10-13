@@ -8,7 +8,7 @@ async function main(){
     const allFish = new AllFish();
     await allFish.getAllFish();
     const myArr = allFish.findFish(myFish.speciesName);
-    console.log(myArr);
+    console.log(allFish.createApiResp(myArr));
     //console.log(myFish.createFishJson());
 }
 main();
