@@ -1,7 +1,9 @@
 import Fish from "./FishClass";
 import AllFish from "./AllFishDataClass";
+import bodyParser from "body-parser";
+const cors = require('cors');
 import express, {Application, Request, Response} from "express";
-async function main(){
+/*async function main(){
     const myFish = new Fish("Salmon", "SAL", "esox");
     //await myFish.getSpeciesNumbers();
     //await myFish.getSpeciesInfo();
@@ -10,17 +12,49 @@ async function main(){
     await allFish.getAllFish();
     const myArr = allFish.findFish(myFish.speciesName);
     console.log(allFish.createApiResp(myArr));
-    console.log(myFish.createFishJson());
+    //console.log(myFish.createFishJson());
 }
 main();
+*/
 
-/*
+
 const app: Application = express();
-app.get("/", (req: Request, res: Response) => {
-    res.send("hello");
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+
+app.get("/findspecieslist/", async (req: Request, res: Response): Promise<void> => {
+    const searchTerm = req.query.specieskey;
+    if (typeof searchTerm === "string" && searchTerm.match("^[A-Za-z]+$")){
+        try{
+
+            const allFish = new AllFish();
+            await allFish.getAllFish();
+            const potentialFishArr = allFish.findFish(searchTerm.replace(/[_-]/g, " "));
+            res.status(200);
+            res.json(allFish.createApiResp(potentialFishArr));
+        }
+        catch(error){
+            res.status(500);
+            res.send("Internal server error occured");
+        }
+    }
+    else{
+        res.status(400);
+        res.send("possibly inncorrect URL argument given");
+    }
 });
 
-app.listen(5000, () => console.log("Server running"));
-*/
+
+app.post("/speciesfullinfo", async (req: Request, res: Response): Promise<void> => {
+    res.send("boi");
+});
+
+
+
+const portVar: number = 5000;
+app.listen(portVar, () => console.log(`\n\nServer running on port: ${portVar}\n\n`));
 
 

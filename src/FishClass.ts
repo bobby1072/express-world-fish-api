@@ -32,8 +32,8 @@ class Fish {
     };
     public createFishJson(): object{
         return {
-            Name: this.speciesName,
             Code: this.code,
+            Name: this.speciesName,
             ScientificName: this.latin,
             ...this.speciesNumbers && {SpecieNumbers: this.speciesNumbers},
             ...this.physicalDescription && this.speciesPhoto && {SpeciesInfo: {
