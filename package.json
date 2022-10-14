@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run prettier-format && npm run build && node build/index.js",
+    "start": "npm i && npm run prettier-format && npm run build && node build/index.js",
+    "build-start": "npm run build && node build/index.js",
     "prettier-format": "prettier --config .prettierrc ./src/*.ts --write",
     "build": "rimraf ./build && tsc",
     "start:dev": "nodemon"
   },
+  "heroku-run-build-script": false,
   "keywords": [],
   "author": "",
   "license": "ISC",
