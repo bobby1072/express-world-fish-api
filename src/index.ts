@@ -23,6 +23,27 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.post("/speciesfullinfo", async (req: Request, res: Response): Promise<void> => {
+    const fishJson = req.body;
+    if (fishJson.Code && fishJson.Name && fishJson.ScientificName){
+        try{
+
+            const myFish = new Fish(fishJson.Name, fishJson.Code, fishJson.ScientificName);
+            await myFish.getSpeciesNumbers();
+            await myFish.getSpeciesInfo();
+            res.status(200);
+            res.send(myFish.createFishJson());
+        }
+        catch(error){
+            res.status(500);
+            res.send("Internal server error occured.");
+        }
+    }
+    else {
+        res.status(422);
+        res.send("Unprocessable body given");
+    };
+});
 
 
 app.get("/findspecieslist/", async (req: Request, res: Response): Promise<void> => {
@@ -38,18 +59,13 @@ app.get("/findspecieslist/", async (req: Request, res: Response): Promise<void> 
         }
         catch(error){
             res.status(500);
-            res.send("Internal server error occured");
+            res.send("Internal server error occured.");
         }
     }
     else{
         res.status(400);
-        res.send("possibly inncorrect URL argument given");
+        res.send("possibly inncorrect URL argument given.");
     }
-});
-
-
-app.post("/speciesfullinfo", async (req: Request, res: Response): Promise<void> => {
-    res.send("boi");
 });
 
 
