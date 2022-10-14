@@ -63,3 +63,9 @@ const portVar: string | number  = process.env.PORT || 5000;
 app.listen(portVar, () =>
   console.log(`\n\nServer running on port: ${portVar}\n\n`)
 );
+
+
+
+
+
+console.log("boi");
