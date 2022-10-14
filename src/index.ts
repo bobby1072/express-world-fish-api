@@ -5,11 +5,12 @@ async function main(){
     const myFish = new Fish("Salmon", "SAL", "esox");
     //await myFish.getSpeciesNumbers();
     //await myFish.getSpeciesInfo();
+    //console.log(myFish.createFishJson());
     const allFish = new AllFish();
     await allFish.getAllFish();
     const myArr = allFish.findFish(myFish.speciesName);
     console.log(allFish.createApiResp(myArr));
-    //console.log(myFish.createFishJson());
+    console.log(myFish.createFishJson());
 }
 main();
 

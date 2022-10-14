@@ -10,19 +10,18 @@ interface Ifish{
 
 class AllFish{
     private fishJsonData?: Ifish[] | undefined;
-    async getAllFish(){
+    public async getAllFish(){
         const req = await httpClient.get(`http://openfisheries.org/api/landings/species.json`);
         const res = await req.data;
         this.fishJsonData = res;
     };
-    findFish(searchterm: string): Fish[] | [] {
+    public findFish(searchterm: string): Fish[] | [] {
         const fishList: Fish[] = [];
         if (this.fishJsonData){
             this.fishJsonData.forEach((element) =>{
                 if (element.english_name.toLowerCase().includes(searchterm.toLowerCase()) ||
                 element.scientific_name.toLowerCase().includes(searchterm.toLowerCase())){
-                    let fishNameFixed = element.english_name.replace(/[()]/g, "");
-                    fishNameFixed = fishNameFixed.replace(/[=]/g, " ");
+                    const fishNameFixed = element.english_name.replace(/[()]/g, " ").replace(/[=]/g, "");
                     if (fishNameFixed){
                         const foundFish = new Fish(fishNameFixed, element.a3_code, element.scientific_name);
                         fishList.push(foundFish);
@@ -32,7 +31,7 @@ class AllFish{
         };
         return fishList;
     };
-    createApiResp(fishObjs: Fish[]): object[] {
+    public createApiResp(fishObjs: Fish[]): object[] {
         let fishJsonList = [];
         const compare = (a: Fish, b: Fish):number =>{
             if(a.speciesName.toLowerCase() < b.speciesName.toLowerCase()){

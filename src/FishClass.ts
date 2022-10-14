@@ -11,7 +11,7 @@ class Fish {
         this.code = fishCode;
         this.latin = fishLatin;
     };
-    async getSpeciesInfo(): Promise<void>{
+    public async getSpeciesInfo(): Promise<void>{
         const req = await httpClient.get(`https://www.fishwatch.gov/api/species/${this.speciesName}`);
         const fishInfo = await req.data;
         if (fishInfo.length >= 1){
@@ -19,7 +19,7 @@ class Fish {
             this.speciesPhoto = fishInfo[0]["Species Illustration Photo"].src
         };
     };
-    async getSpeciesNumbers(): Promise<void>{
+    public async getSpeciesNumbers(): Promise<void>{
         try{
             const req = await httpClient.get(`http://openfisheries.org/api/landings/species/${this.code}.json`);
             const fishInfo = await req.data;
@@ -30,16 +30,16 @@ class Fish {
         catch(err){
         };
     };
-    createFishJson(): object{
+    public createFishJson(): object{
         return {
             Name: this.speciesName,
             Code: this.code,
             ScientificName: this.latin,
-            SpecieNumbers: this.speciesNumbers,
-            SpeciesInfo: {
+            ...this.speciesNumbers && {SpecieNumbers: this.speciesNumbers},
+            ...this.physicalDescription && this.speciesPhoto && {SpeciesInfo: {
                 PhysicalDescription: this.physicalDescription,
                 SpeciesPhoto: this.speciesPhoto
-            }
+            }}
         };
     };
 };
