@@ -9,7 +9,7 @@ interface Ifish{
 };
 
 class AllFish{
-    private fishJsonData?: Ifish[] | undefined;
+    private fishJsonData: Ifish[] | undefined;
     public async getAllFish(){
         const req = await httpClient.get(`http://openfisheries.org/api/landings/species.json`);
         const res = await req.data;

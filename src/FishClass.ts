@@ -3,13 +3,15 @@ class Fish {
     public speciesName: string;
     public code: string;
     public latin: string;
+    public nickName?: string;
     private physicalDescription?: string;
     private speciesPhoto?: string;
     private speciesNumbers?: object[];
-    constructor(fishName: string, fishCode: string, fishLatin: string){
+    constructor(fishName: string, fishCode: string, fishLatin: string, fishNickName?: string){
         this.speciesName = fishName;
         this.code = fishCode;
         this.latin = fishLatin;
+        fishNickName && (this.nickName = fishNickName);
     };
     public async getSpeciesInfo(): Promise<void>{
         const req = await httpClient.get(`https://www.fishwatch.gov/api/species/${this.speciesName}`);
@@ -35,6 +37,7 @@ class Fish {
             Code: this.code,
             Name: this.speciesName,
             ScientificName: this.latin,
+            ...this.nickName && {Alias: this.nickName},
             ...this.speciesNumbers && {SpecieNumbers: this.speciesNumbers},
             ...this.physicalDescription && this.speciesPhoto && {SpeciesInfo: {
                 PhysicalDescription: this.physicalDescription,

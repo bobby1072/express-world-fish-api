@@ -3,25 +3,13 @@ import AllFish from "./AllFishDataClass";
 import bodyParser from "body-parser";
 const cors = require('cors');
 import express, {Application, Request, Response} from "express";
-/*async function main(){
-    const myFish = new Fish("Salmon", "SAL", "esox");
-    //await myFish.getSpeciesNumbers();
-    //await myFish.getSpeciesInfo();
-    //console.log(myFish.createFishJson());
-    const allFish = new AllFish();
-    await allFish.getAllFish();
-    const myArr = allFish.findFish(myFish.speciesName);
-    console.log(allFish.createApiResp(myArr));
-    //console.log(myFish.createFishJson());
-}
-main();
-*/
 
 
 const app: Application = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 app.post("/speciesfullinfo", async (req: Request, res: Response): Promise<void> => {
     const fishJson = req.body;
@@ -67,7 +55,6 @@ app.get("/findspecieslist/", async (req: Request, res: Response): Promise<void> 
         res.send("possibly inncorrect URL argument given.");
     }
 });
-
 
 
 const portVar: number = 5000;
