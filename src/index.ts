@@ -18,7 +18,8 @@ app.post(
         const myFish = new Fish(
           fishJson.Name,
           fishJson.Code,
-          fishJson.ScientificName
+          fishJson.ScientificName,
+          fishJson.Alias && fishJson.Alias
         );
         await myFish.getSpeciesNumbers();
         await myFish.getSpeciesInfo();

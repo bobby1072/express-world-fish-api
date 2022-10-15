@@ -3,7 +3,7 @@ class Fish {
   public speciesName: string;
   public code: string;
   public latin: string;
-  public nickName?: string;
+  private nickName?: string;
   private physicalDescription?: string;
   private speciesPhoto?: string;
   private speciesNumbers?: object[];
