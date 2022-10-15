@@ -35,31 +35,27 @@ app.post(
   }
 );
 
-app.get(
-  '/findspecieslist/',
-  async (req: Request, res: Response): Promise<void> => {
-    const searchTerm = req.query.specieskey;
-    if (typeof searchTerm === 'string' && searchTerm.match('^[A-Za-z]+$')) {
-      try {
-        const allFish = new AllFish();
-        await allFish.getAllFish();
-        const potentialFishArr = allFish.findFish(
-          searchTerm.replace(/[_-]/g, ' ')
-        );
-        res.status(200);
-        res.json(allFish.createApiResp(potentialFishArr));
-      } catch (error) {
-        res.status(500);
-        res.send('Internal server error occured.');
-      }
-    } else {
-      res.status(400);
-      res.send('possibly inncorrect URL argument given.');
+app.get('/findspecieslist/', (req: Request, res: Response): void => {
+  const searchTerm = req.query.specieskey;
+  if (typeof searchTerm === 'string' && searchTerm.match('^[A-Za-z]+$')) {
+    try {
+      const allFish = new AllFish();
+      const potentialFishArr = allFish.findFish(
+        searchTerm.replace(/[_-]/g, ' ')
+      );
+      res.status(200);
+      res.json(allFish.createApiResp(potentialFishArr));
+    } catch (error) {
+      res.status(500);
+      res.send('Internal server error occured.');
     }
+  } else {
+    res.status(400);
+    res.send('possibly inncorrect URL argument given.');
   }
-);
+});
 
-const portVar: string | number  = process.env.PORT || 5000;
+const portVar: string | number = process.env.PORT || 5000;
 app.listen(portVar, () =>
   console.log(`\n\nServer running on port: ${portVar}\n\n`)
 );

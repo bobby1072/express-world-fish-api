@@ -1,5 +1,5 @@
-import httpClient from './httpClient';
 import Fish from './FishClass';
+import allFish from './allFish.json';
 interface Ifish {
   scientific_name: string;
   taxocode: string;
@@ -9,13 +9,9 @@ interface Ifish {
 }
 
 class AllFish {
-  private fishJsonData: Ifish[] | undefined;
-  public async getAllFish() {
-    const req = await httpClient.get(
-      `http://openfisheries.org/api/landings/species.json`
-    );
-    const res = await req.data;
-    this.fishJsonData = res;
+  private fishJsonData: Ifish[];
+  constructor() {
+    this.fishJsonData = allFish;
   }
   public findFish(searchterm: string): Fish[] | [] {
     const fishList: Fish[] = [];
