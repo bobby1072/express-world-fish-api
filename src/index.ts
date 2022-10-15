@@ -38,12 +38,10 @@ app.post(
 
 app.get('/findspecieslist/', (req: Request, res: Response): void => {
   const searchTerm = req.query.specieskey;
-  if (typeof searchTerm === 'string' && searchTerm.match('^[A-Za-z]+$')) {
+  if (typeof searchTerm === 'string' && /^[A-Za-z\s]*$/.test(searchTerm)) {
     try {
       const allFish = new AllFish();
-      const potentialFishArr = allFish.findFish(
-        searchTerm.replace(/[_-]/g, ' ')
-      );
+      const potentialFishArr = allFish.findFish(searchTerm);
       res.status(200);
       res.json(allFish.createApiResp(potentialFishArr));
     } catch (error) {
