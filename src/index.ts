@@ -21,8 +21,10 @@ app.post(
           fishJson.ScientificName,
           fishJson.Alias && fishJson.Alias
         );
-        await myFish.getSpeciesNumbers();
-        await myFish.getSpeciesInfo();
+        await Promise.all([
+          myFish.getSpeciesNumbers(),
+          myFish.getSpeciesInfo()
+        ]);
         res.status(200);
         res.send(myFish.createFishJson());
       } catch (error) {

@@ -7,12 +7,8 @@ interface Ifish {
   isscaap: number;
   english_name: string;
 }
-
 class AllFish {
-  private fishJsonData: Ifish[];
-  constructor() {
-    this.fishJsonData = allFish;
-  }
+  private fishJsonData: Ifish[] = allFish;
   public findFish(searchterm: string): Fish[] | [] {
     const fishList: Fish[] = [];
     this.fishJsonData &&
@@ -30,10 +26,10 @@ class AllFish {
           if (aka && aka.charAt(0) === ' ') {
             aka = aka.substring(1);
           }
-          const fishNameFixed = fishNameAka
+          const fishNameFixed: string = fishNameAka
             ? element.english_name.replace(fishNameAka[0], ' ')
             : element.english_name;
-          const foundFish =
+          const foundFish: boolean | Fish | string =
             fishNameFixed &&
             (aka
               ? new Fish(
@@ -47,7 +43,7 @@ class AllFish {
                   element.a3_code,
                   element.scientific_name
                 ));
-          foundFish && fishList.push(foundFish);
+          foundFish instanceof Fish && fishList.push(foundFish);
         }
       });
     return fishList;
