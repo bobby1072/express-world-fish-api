@@ -30,10 +30,12 @@ app.post(
       } catch (error) {
         res.status(500);
         res.send('Internal server error occured.');
+        throw new Error('Most likely failed on api requests or response.');
       }
     } else {
       res.status(422);
       res.send('Unprocessable body given');
+      throw new Error('User gave an invalid body');
     }
   }
 );
@@ -49,10 +51,12 @@ app.get('/findspecieslist/', (req: Request, res: Response): void => {
     } catch (error) {
       res.status(500);
       res.send('Internal server error occured.');
+      throw new Error('Most likely failed on api requests or response.');
     }
   } else {
     res.status(400);
     res.send('possibly inncorrect URL argument given.');
+    throw new Error('User gave an invalid URL arg');
   }
 });
 
