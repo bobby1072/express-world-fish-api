@@ -57,10 +57,9 @@ class AllFish {
       }
       return 0;
     };
-    const fishJsonList = fishObjs.sort(compare).map((element) => {
+    return fishObjs.sort(compare).map((element) => {
       return element.createFishJson();
     });
-    return fishJsonList;
   }
 }
 export default AllFish;
